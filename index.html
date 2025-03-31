@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Emi Calculator</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+  <div class="container">
+    <h2>Emi Calculator</h2>
+    <form>
+      <div class="form-group">
+        <label for="loanAmount">Loan Amount:</label>
+        <input type="number" class="form-control" id="loanAmount" placeholder="Enter Loan Amount" name="loanAmount">
+      </div>
+      <div class="form-group">
+        <div class="col-sm-2" style="padding-left: 0px;"> <label for="roi">Interest Rate:</label></div>
+        <div class="col-sm-3">
+          <input type="range" id="roi" name="roi" min="7" max="30"  value="10" onclick="getROI()">
+        </div>
+        <div class="col-sm-1"> <label></label> </div>
+        <div class="col-sm-6"> <input type="text" id="Acroi" value="10"></div>
+      </div> <br><br>
+      <div class="form-group">
+        <label> Loan Tenure (In years)</label>
+        <select id="getTenure">
+          <option>Select</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option vaue="4">4</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+        </select>
+      </div>
+      <button type="button" class="btn btn-default" onclick="getVal()">Submit</button>
+    </form>
+    <br> <br> <br>
+    <!-- <div style="display:none"> -->
+    <div>
+      <div class="form-group">
+        <label class="col-sm-2" for="emi">EMI:</label>
+        <div class="col-sm-8"> <input type="text" id="emi"></div>
+      </div> <br><br>
+
+      <div class="form-group">
+        <label class="col-sm-2" for="TotalInterestPayable">Total Interest Payable:</label>
+        <div class="col-sm-8"> <input type="text" id="tip"></div>
+      </div> <br>
+
+      <div class="form-group">
+        <label class="col-sm-2" for="totalAmount">Total Payment (Principal + Interest)</label>
+        <div class="col-sm-8"> <input type="text" style="margin-top: 10px" id="tp"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+
+    function getVal() {
+      let pr = document.getElementById("loanAmount").value;
+      let r = document.getElementById("Acroi").value;
+      let n = document.getElementById("getTenure").value;
+      calculateEMI(pr, r, n);
+    }
+
+    function calculateEMI(pr, r, n) {
+
+      let netROI = ((r / 12) / 100);
+      let tenureInMonths = n * 12;
+      let temp = Math.pow((1 + netROI), tenureInMonths);
+
+      let emi = Math.ceil((pr * netROI * temp) / (temp - 1));
+
+      let totalPayment = emi * tenureInMonths;
+      let interest = totalPayment - pr;
+
+      document.getElementById("emi").value = emi;
+      document.getElementById("tip").value = interest;
+      document.getElementById("tp").value = totalPayment;
+
+    }
+
+    function getROI() {
+
+      document.getElementById("Acroi").value = document.getElementById("roi").value;
+
+    }
+  </script>
+
+</body>
+
+</html>
