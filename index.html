@@ -80,7 +80,6 @@
       let temp = Math.pow((1 + netROI), tenureInMonths);
 
       let emi = Math.ceil((pr * netROI * temp) / (temp - 1));
-
       let totalPayment = emi * tenureInMonths;
       let interest = totalPayment - pr;
 
